@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface LedgerEntryRepository extends JpaRepository<LedgerEntry,Long> {
     List<LedgerEntry> findAllByWalletId(Long walletId);
+    boolean existsByCategoryId(Long categoryId);
 }

@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class walletServices implements IWalletServices{
+public class WalletService implements IWalletServices{
 
     @Autowired
     private final WalletRepository walletRepository;

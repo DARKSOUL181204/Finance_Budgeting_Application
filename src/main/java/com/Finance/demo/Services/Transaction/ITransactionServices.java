@@ -10,7 +10,7 @@ import com.Finance.demo.Request.Transaction.UpdateTransactionRequest;
 import java.util.List;
 
 public interface ITransactionServices {
-    Transaction createTransaction(CreateTransactionRequest request , Long userId);
+    TransactionDto createTransaction(CreateTransactionRequest request , Long userId);
     TransactionDto getTransactionById(Long Id);
     List<TransactionDto> getAllTransactionsByUser(Long userId);
     TransactionDto updateTransaction(UpdateTransactionRequest request , Long Id);

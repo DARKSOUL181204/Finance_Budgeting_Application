@@ -21,12 +21,11 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class transactionServices implements ITransactionServices {
+public class TransactionService implements ITransactionServices {
 
     @Autowired
     private final TransactionRepository transactionRepository;
@@ -41,7 +40,7 @@ public class transactionServices implements ITransactionServices {
 
     @Override
     @Transactional
-    public Transaction createTransaction(CreateTransactionRequest request, Long userId) {
+    public TransactionDto createTransaction(CreateTransactionRequest request, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not Found !!"));
 
@@ -77,7 +76,8 @@ public class transactionServices implements ITransactionServices {
         wallet.setBalance(newBalance);
         walletRepository.save(wallet);
 
-        return transactionRepository.save(transaction);
+        Transaction transaction1 =  transactionRepository.save(transaction);
+        return modelMapper.map(transaction1,TransactionDto.class);
     }
 
     @Override

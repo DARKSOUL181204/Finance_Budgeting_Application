@@ -6,7 +6,6 @@ import com.Finance.demo.Exceptions.AlreadyExistException;
 import com.Finance.demo.Exceptions.ResourceDoesNotExistException;
 import com.Finance.demo.Exceptions.ResourceNotFoundException;
 import com.Finance.demo.Model.User;
-import com.Finance.demo.Model.Wallet;
 import com.Finance.demo.Repository.UserRepository;
 import com.Finance.demo.Request.User.CreateUserRequest;
 import com.Finance.demo.Request.User.UpdateUserRequest;
@@ -15,14 +14,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class userServices implements IUserServices {
+public class UserService implements IUserServices {
     @Autowired
     private final UserRepository userRepository;
     @Autowired

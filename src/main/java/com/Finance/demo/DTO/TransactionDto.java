@@ -14,4 +14,5 @@ public class TransactionDto {
     private LocalDateTime date;
     private String description;
     private BigDecimal totalAmount;
+    private List<LedgerEntryDto> entries;
 }
