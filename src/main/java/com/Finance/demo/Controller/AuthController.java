@@ -1,45 +1,36 @@
 package com.Finance.demo.Controller;
 
-import com.Finance.demo.Repository.UserRepository;
-import com.Finance.demo.DTO.RegisterDto;
-import com.Finance.demo.Model.User;
-import com.Finance.demo.Repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.Finance.demo.Request.Auth.AuthenticationRequest;
+import com.Finance.demo.Request.Auth.RegisterRequest;
+import com.Finance.demo.Response.AuthenticationResponse;
+import com.Finance.demo.Services.Auth.AuthService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth") // Must match SecurityConfig Matchers!
+@RequiredArgsConstructor
 public class AuthController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final AuthService authService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    @PostMapping("/register")
+    public ResponseEntity<AuthenticationResponse> register(
+            @RequestBody RegisterRequest request
+    ) {
+        // We delegate the logic to the Service
+        // The Service will: Check email, Hash password, Save User, Generate Token
+        return ResponseEntity.ok(authService.register(request));
+    }
 
-    @PostMapping("/signup")
-    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
-
-        // 1. Check if email already exists
-        if (userRepository.findByEmail(registerDto.getEmail()).isPresent()) {
-            return ResponseEntity.badRequest().body("Email is already in use!");
-        }
-
-        // 2. Create the new user object
-        User newUser = new User();
-        newUser.setFirstName(registerDto.getFirstName());
-        newUser.setLastName(registerDto.getLastName());
-        newUser.setEmail(registerDto.getEmail());
-
-        // 3. IMPORTANT: Hash the password using BCrypt!
-        String encodedPassword = passwordEncoder.encode(registerDto.getPassword());
-        newUser.setPassword(encodedPassword);
-
-        // 4. Save to Database
-        userRepository.save(newUser);
-
-        return ResponseEntity.ok("User registered successfully!");
+    @PostMapping("/login")
+    public ResponseEntity<AuthenticationResponse> login(
+            @RequestBody AuthenticationRequest request
+    ) {
+        return ResponseEntity.ok(authService.authenticate(request));
     }
 }
