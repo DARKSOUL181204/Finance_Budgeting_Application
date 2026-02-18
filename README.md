@@ -195,10 +195,3 @@ Base prefix for secured endpoints: `/api/v1`
 - Consider moving sensitive configuration to environment variables.
 - Add validation annotations on request DTOs for input safety.
 
----
-
-If you want, I can also add:
-
-1. a `.env`-style configuration approach,
-2. a `docker-compose.yml` for local setup,
-3. and a starter OpenAPI/Swagger config.
